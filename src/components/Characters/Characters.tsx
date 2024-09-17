@@ -12,7 +12,7 @@ interface Character {
   gender: string;
 }
 
-export const Characters = () => {
+export function Characters() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -77,4 +77,4 @@ export const Characters = () => {
       </div>
     </main>
   );
-};
+}
