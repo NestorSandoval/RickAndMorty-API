@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useEffect, useState } from "react";
 import { fetchRickAndMorty } from "@/app/actions/actions";
 import { PaginationComponent } from "../ui";
