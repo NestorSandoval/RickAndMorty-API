@@ -1,1 +1,1 @@
-export * from "@/components/Characters/Characters";
+export * from "@/components/characters/Characters";

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchRickAndMorty } from "@/app/actions/actions";
-import Pagination from "../ui/Pagination";
+import { PaginationComponent } from "../ui";
 
 interface Character {
   id: number;
@@ -14,40 +14,66 @@ interface Character {
 
 export const Characters = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const getCharacters = async () => {
       try {
-        const data = await fetchRickAndMorty();
+        const data = await fetchRickAndMorty(currentPage);
         setCharacters(data.results);
-      } catch (error: any) {}
+        setTotalPages(data.info.pages);
+      } catch (error: any) {
+        console.error(error);
+      }
     };
 
     getCharacters();
-  }, []);
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <main>
-      <div className="grid place-content-center text-5xl mt-10 text-green-500 ">
+    <main className="flex flex-col items-center p-4">
+      <div className="text-5xl text-green-500 mt-10 bg-gray-800 rounded-lg px-10 py-2">
         <h1>Characters Rick and Morty</h1>
       </div>
-      <div className="grid grid-cols-4 place-items-center mt-10 box-border text-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 mt-10">
         {characters.map((character) => (
-          <article className="" key={character.id}>
-            <div className="text-2xl text-green-300 font-semibold">
-              <img className="w-[100%]" src={character.image} />
-              <h1>{character.name}</h1>
+          <article
+            className="flex flex-col items-center p-4 bg-gray-800 rounded-lg w-64 h-auto max-w-xs"
+            key={character.id}
+          >
+            <div className="w-40 h-40 overflow-hidden">
+              <img
+                className="w-full h-full object-cover"
+                src={character.image}
+                alt={character.name}
+              />
             </div>
-            <div className="grid">
-              <span>{character.species}</span>
-              <span>{character.gender}</span>
-              <span>{character.status}</span>
+            <div className="text-center text-white mt-2">
+              <h2 className="text-xl text-green-300 font-semibold truncate">
+                {character.name}
+              </h2>
+              <div className="mt-2">
+                <span>Especie: {character.species}</span>
+                <br />
+                <span>Género: {character.gender}</span>
+                <br />
+                <span>Estatus: {character.status}</span>
+              </div>
             </div>
           </article>
         ))}
       </div>
-      <div className="flex justify-center py-4 mt-3">
-        <Pagination />
+      <div className="flex justify-center py-4 mt-3 sticky">
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </main>
   );

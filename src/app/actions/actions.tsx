@@ -1,7 +1,7 @@
-export async function fetchRickAndMorty() {
+export async function fetchRickAndMorty(page = 1) {
   try {
     const response = await fetch(
-      `https://rickandmortyapi.com/api/character/?page=3`
+      `https://rickandmortyapi.com/api/character/?page=${page}`
     );
     if (!response.ok) {
       const errorData = await response.json();

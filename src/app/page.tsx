@@ -1,8 +1,8 @@
-import { Characters } from "@/components/Characters";
+import { Characters } from "@/components/characters";
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-black">
       <Characters />
     </main>
   );

@@ -1,7 +1,33 @@
-export default function Pagination() {
-  return (
-    <button className="flex justify-center items-center bg-white text-black border rounded-lg w-32 h-10 hover:bg-green-500 hover:text-white ">
-      Pagination
-    </button>
-  );
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
+
+export const PaginationComponent: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    onPageChange(page);
+  };
+
+  return (
+    <Stack spacing={2}>
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        color="primary"
+        className="bg-blue-200 border rounded-full"
+        onChange={handlePageChange}
+      />
+    </Stack>
+  );
+};
